@@ -1,6 +1,6 @@
 # Ride Hailing App 🚗
 
-A modern ride-hailing application built with React Native, featuring real-time location tracking, driver-passenger matching, and secure payment processing.
+A modern React Native application for ride hailing services, featuring real-time ride tracking, status updates, and a seamless user experience for both drivers and passengers.
 
 ## 🚀 Features
 
@@ -63,12 +63,11 @@ A modern ride-hailing application built with React Native, featuring real-time l
 ### Frontend
 - React Native
 - TypeScript
-- Redux Toolkit
-- NativeWind (Tailwind CSS)
-- React Navigation
-- Firebase Cloud Messaging
-- Google Maps API
-- Socket.io-client
+- Socket.IO for real-time communication
+- Jest and React Testing Library for testing
+- Context API for state management
+- React Navigation for routing
+- Expo for development and deployment
 
 ### Backend (In Development)
 - Node.js
@@ -88,10 +87,8 @@ A modern ride-hailing application built with React Native, featuring real-time l
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
-- React Native CLI
-- Android Studio / Xcode
-- Firebase account
-- Google Maps API key
+- Expo CLI
+- iOS Simulator (for Mac) or Android Studio (for Android development)
 
 ### Installation
 
@@ -108,70 +105,34 @@ npm install
 yarn install
 ```
 
-3. iOS specific setup
+3. Start the development server
 ```bash
-cd ios && pod install && cd ..
+npm start
+# or
+yarn start
 ```
 
-4. Environment setup
-Create a `.env` file in the root directory with the following variables:
-```env
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-FIREBASE_API_KEY=your_firebase_api_key
-API_URL=your_backend_api_url
-```
-
-5. Run the app
+4. Run on your preferred platform
 ```bash
 # For iOS
 npm run ios
-# or
-yarn ios
-
 # For Android
 npm run android
-# or
-yarn android
 ```
 
 ## 📁 Project Structure
 
 ```
 RideHailingApp/
-├── app/
-│   ├── (auth)/
-│   │   ├── login.tsx
-│   │   ├── register.tsx
-│   │   └── forgot-password.tsx
-│   ├── (tabs)/
-│   │   ├── home.tsx
-│   │   ├── ride.tsx
-│   │   ├── driver.tsx
-│   │   ├── notifications.tsx
-│   │   └── profile.tsx
-│   └── _layout.tsx
-├── components/
-│   ├── ui/
-│   │   ├── Button.tsx
-│   │   └── Input.tsx
-│   └── RideCard.tsx
-├── hooks/
-│   ├── useFirebaseMessaging.ts
-│   └── useLocationTracking.ts
-├── store/
-│   ├── slices/
-│   │   ├── authSlice.ts
-│   │   ├── driverSlice.ts
-│   │   ├── locationSlice.ts
-│   │   ├── notificationSlice.ts
-│   │   ├── rideSlice.ts
-│   │   └── userSlice.ts
-│   └── store.ts
-├── utils/
-│   └── constants.ts
-├── assets/
-├── App.tsx
-└── package.json
+├── components/           # Reusable UI components
+│   ├── RideProvider.tsx # Context provider for ride state
+│   └── RideStatusComponent.tsx # Main ride status component
+├── services/           # API and service integrations
+├── __tests__/         # Test files
+│   ├── components/    # Component tests
+│   ├── integration/   # Integration tests
+│   └── utils/         # Test utilities
+└── App.tsx            # Root component
 ```
 
 ## 🔄 Development Status
@@ -199,3 +160,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - All contributors and supporters
 
 
+HEAD
+=======
+For support, email support@ridehailingapp.com or create an issue in the repository.
+
+## 🔄 Testing
+
+The project uses Jest and React Testing Library for testing. To run the tests:
+
+```bash
+npm test
+```
+00aad50 (Saving my changes before pulling)
