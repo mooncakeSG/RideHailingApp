@@ -202,6 +202,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Expo team
 - All contributors and supporters
 
-## 📞 Support
 
-For support, email support@ridehailingapp.com or create an issue in the repository.
