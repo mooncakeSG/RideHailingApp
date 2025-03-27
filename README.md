@@ -160,10 +160,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - All contributors and supporters
 
 
-HEAD
-=======
-For support, email support@ridehailingapp.com or create an issue in the repository.
-
 ## 🔄 Testing
 
 The project uses Jest and React Testing Library for testing. To run the tests:
@@ -171,4 +167,4 @@ The project uses Jest and React Testing Library for testing. To run the tests:
 ```bash
 npm test
 ```
-00aad50 (Saving my changes before pulling)
+
