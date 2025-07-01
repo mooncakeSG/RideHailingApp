@@ -1,257 +1,207 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
-import { useRideContext } from '../../components/RideProvider';
-import RideStatusComponent from '../../components/RideStatusComponent';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-
-interface RideHistory {
-  id: string;
-  date: string;
-  status: string;
-  fare: string;
-  pickup: string;
-  dropoff: string;
-}
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function PassengerScreen() {
-  const { rides, loading, error, updateRideStatus } = useRideContext();
-  const [selectedRide, setSelectedRide] = useState<any | null>(null);
   const [showHistory, setShowHistory] = useState(false);
 
-  // Mock ride history data
-  const rideHistory: RideHistory[] = [
+  const rideOptions = [
     {
-      id: '1',
-      date: '2024-03-27',
-      status: 'completed',
-      fare: '25.00',
-      pickup: '123 Main St',
-      dropoff: '456 Park Ave',
+      id: 'economy',
+      name: 'Economy',
+      price: 50,
+      eta: '5 min',
     },
     {
-      id: '2',
-      date: '2024-03-26',
-      status: 'completed',
-      fare: '30.00',
-      pickup: '789 Oak St',
-      dropoff: '321 Pine Ave',
-    },
+      id: 'comfort',
+      name: 'Comfort',
+      price: 75,
+      eta: '7 min',
+    }
   ];
 
-  const handleRequestRide = async () => {
-    try {
-      // In a real app, you would get pickup/dropoff locations from a map
-      const newRide = {
-        id: Date.now().toString(),
-        status: 'requested',
-        fare: '25.00',
-        eta: '5 mins',
-        pickup: {
-          address: 'Current Location',
-          coordinates: { latitude: 0, longitude: 0 },
-        },
-        dropoff: {
-          address: 'Destination',
-          coordinates: { latitude: 0, longitude: 0 },
-        },
-      };
-      setSelectedRide(newRide);
-      await updateRideStatus(newRide.id, 'requested');
-    } catch (err) {
-      console.error('Error requesting ride:', err);
+  const rideHistoryData = [
+    {
+      id: '1',
+      time: 'Today, 12:30 Pm',
+      passenger: 'Sarah Johnson',
+      pickup: '123 Main Street',
+      dropoff: 'Downtown Mall',
+      fare: '24.50',
+      duration: '5 min',
     }
+  ];
+
+  const handleBookRide = (rideType: string) => {
+    console.log(`Booking ${rideType} ride`);
   };
 
-  const renderRideHistoryItem = ({ item }: { item: RideHistory }) => (
-    <View style={styles.historyItem}>
-      <View style={styles.historyHeader}>
-        <Text style={styles.historyDate}>{item.date}</Text>
-        <Text style={[
-          styles.historyStatus,
-          { color: item.status === 'completed' ? '#4CAF50' : '#f44336' }
-        ]}>
-          {item.status.toUpperCase()}
-        </Text>
-      </View>
-      <View style={styles.historyDetails}>
-        <View style={styles.historyLocation}>
-          <FontAwesome name="map-marker" size={16} color="#666" />
-          <Text style={styles.historyText}>{item.pickup}</Text>
-        </View>
-        <View style={styles.historyLocation}>
-          <FontAwesome name="flag-checkered" size={16} color="#666" />
-          <Text style={styles.historyText}>{item.dropoff}</Text>
-        </View>
-        <View style={styles.historyFare}>
-          <FontAwesome name="money" size={16} color="#666" />
-          <Text style={styles.historyText}>${item.fare}</Text>
-        </View>
-      </View>
-    </View>
-  );
-
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Request a Ride</Text>
-        <Text style={styles.subtitle}>Track your ride in real-time</Text>
+    <ScrollView className="flex-1 bg-gray-50">
+      {/* Enhanced Header with Gradient */}
+      <LinearGradient
+        colors={['#667eea', '#764ba2']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        className="px-6 pt-16 pb-8"
+      >
+        <View className="items-center">
+          <Text className="text-4xl font-black text-white text-center tracking-wide">
+            Book a Ride
+          </Text>
+          <View className="w-16 h-1 bg-white/30 rounded-full mt-3" />
+          <Text className="text-white/80 text-center mt-2 text-lg">
+            Your journey starts here
+          </Text>
+        </View>
+      </LinearGradient>
+
+      {/* Enhanced Ride Options */}
+      <View className="px-6 py-6">
+        {rideOptions.map((option) => (
+          <TouchableOpacity
+            key={option.id}
+            onPress={() => handleBookRide(option.id)}
+            className="bg-white rounded-2xl p-6 mb-4 shadow-lg border border-gray-100"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.1,
+              shadowRadius: 6,
+              elevation: 8,
+            }}
+          >
+            <View className="flex-row justify-between items-center">
+              <View className="flex-1">
+                <Text className="text-2xl font-bold text-gray-900 mb-1" style={{
+                  textShadowColor: 'rgba(0, 0, 0, 0.1)',
+                  textShadowOffset: { width: 1, height: 1 },
+                  textShadowRadius: 2,
+                }}>
+                  {option.name}
+                </Text>
+                <Text className="text-lg text-gray-600 font-medium">
+                  {option.eta}
+                </Text>
+              </View>
+              <View className="items-end">
+                <Text className="text-3xl font-black text-blue-600" style={{
+                  textShadowColor: 'rgba(59, 130, 246, 0.3)',
+                  textShadowOffset: { width: 1, height: 1 },
+                  textShadowRadius: 3,
+                }}>
+                  ${option.price}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
-      ) : error ? (
-        <Text style={styles.error}>{error}</Text>
-      ) : (
-        <View style={styles.content}>
-          {selectedRide ? (
-            <RideStatusComponent isDriver={false} />
-          ) : (
-            <>
-              <View style={styles.requestSection}>
-                <TouchableOpacity
-                  style={styles.requestButton}
-                  onPress={handleRequestRide}
-                >
-                  <Text style={styles.requestButtonText}>Request a Ride</Text>
-                </TouchableOpacity>
-              </View>
+      {/* Enhanced Ride History */}
+      <View className="px-6">
+        <TouchableOpacity
+          onPress={() => setShowHistory(!showHistory)}
+          className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+          style={{
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 6,
+            elevation: 8,
+          }}
+        >
+          <View className="flex-row justify-between items-center">
+            <View className="flex-1">
+              <Text className="text-2xl font-bold text-gray-900" style={{
+                textShadowColor: 'rgba(0, 0, 0, 0.1)',
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 2,
+              }}>
+                Ride History
+              </Text>
+              <View className="w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mt-2" />
+            </View>
+            <View className="bg-blue-100 p-3 rounded-full">
+              <FontAwesome 
+                name={showHistory ? 'chevron-up' : 'chevron-right'} 
+                size={18} 
+                color="#3B82F6" 
+              />
+            </View>
+          </View>
 
-              {/* Ride History Section */}
-              <View style={styles.historySection}>
-                <View style={styles.historyHeader}>
-                  <Text style={styles.sectionTitle}>Ride History</Text>
-                  <TouchableOpacity onPress={() => setShowHistory(!showHistory)}>
-                    <FontAwesome 
-                      name={showHistory ? 'chevron-up' : 'chevron-down'} 
-                      size={20} 
-                      color="#666" 
-                    />
-                  </TouchableOpacity>
+          {showHistory && (
+            <View className="mt-6 pt-6 border-t border-gray-100">
+              {rideHistoryData.map((ride) => (
+                <View key={ride.id} className="mb-4">
+                  <Text className="text-lg font-semibold text-purple-600 mb-2" style={{
+                    textShadowColor: 'rgba(147, 51, 234, 0.3)',
+                    textShadowOffset: { width: 1, height: 1 },
+                    textShadowRadius: 2,
+                  }}>
+                    {ride.time}
+                  </Text>
+                  <Text className="text-xl font-bold text-gray-900 mb-1" style={{
+                    textShadowColor: 'rgba(0, 0, 0, 0.1)',
+                    textShadowOffset: { width: 1, height: 1 },
+                    textShadowRadius: 2,
+                  }}>
+                    {ride.passenger}
+                  </Text>
+                  <Text className="text-base text-gray-600 mb-1 font-medium">
+                    📍 {ride.pickup}
+                  </Text>
+                  <Text className="text-base text-gray-600 mb-3 font-medium">
+                    🏁 {ride.dropoff}
+                  </Text>
+                  
+                  <View className="flex-row justify-between items-center">
+                    <Text className="text-2xl font-black text-green-600" style={{
+                      textShadowColor: 'rgba(34, 197, 94, 0.3)',
+                      textShadowOffset: { width: 1, height: 1 },
+                      textShadowRadius: 3,
+                    }}>
+                      ${ride.fare}
+                    </Text>
+                    <Text className="text-base text-gray-600 font-semibold">
+                      ⏱️ {ride.duration}
+                    </Text>
+                  </View>
+
+                  {/* Enhanced Mini Map Placeholder */}
+                  <LinearGradient
+                    colors={['#dbeafe', '#bfdbfe']}
+                    className="mt-4 h-28 rounded-xl items-center justify-center"
+                  >
+                    <View className="flex-row items-center">
+                      <FontAwesome name="map-marker" size={18} color="#3B82F6" />
+                      <View className="w-16 h-1 bg-blue-400 rounded-full mx-3" />
+                      <FontAwesome name="map-marker" size={18} color="#EF4444" />
+                    </View>
+                    <Text className="text-blue-700 text-sm mt-3 font-semibold" style={{
+                      textShadowColor: 'rgba(29, 78, 216, 0.3)',
+                      textShadowOffset: { width: 1, height: 1 },
+                      textShadowRadius: 2,
+                    }}>
+                      🗺️ Route Visualization
+                    </Text>
+                  </LinearGradient>
                 </View>
-                {showHistory && (
-                  <FlatList
-                    data={rideHistory}
-                    renderItem={renderRideHistoryItem}
-                    keyExtractor={item => item.id}
-                    scrollEnabled={false}
-                    style={styles.historyList}
-                  />
-                )}
-              </View>
-            </>
+              ))}
+            </View>
           )}
-        </View>
-      )}
+        </TouchableOpacity>
+      </View>
+
+      <View className="h-6" />
     </ScrollView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  header: {
-    padding: 20,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 5,
-  },
-  content: {
-    flex: 1,
-  },
-  loader: {
-    marginTop: 20,
-  },
-  error: {
-    color: '#f44336',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  requestSection: {
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 200,
-  },
-  requestButton: {
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 25,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  requestButtonText: {
-    color: '#ffffff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  historySection: {
-    padding: 20,
-    backgroundColor: '#ffffff',
-    marginTop: 20,
-  },
-  historyHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  historyList: {
-    marginTop: 10,
-  },
-  historyItem: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-  },
-  historyDate: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
-  },
-  historyStatus: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  historyDetails: {
-    marginTop: 10,
-  },
-  historyLocation: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
-    gap: 10,
-  },
-  historyFare: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 5,
-    gap: 10,
-  },
-  historyText: {
-    fontSize: 14,
-    color: '#666',
-  },
-}); 
+} 

@@ -1,10 +1,5 @@
 import React from 'react';
 import { TextInput, View, Text, TextInputProps } from 'react-native';
-import { styled } from 'nativewind';
-
-const StyledTextInput = styled(TextInput);
-const StyledView = styled(View);
-const StyledText = styled(Text);
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -19,23 +14,29 @@ export const Input: React.FC<InputProps> = ({
   className = '',
   ...props
 }) => {
+  const getInputClasses = () => {
+    const baseClasses = 'border rounded-lg px-4 py-3 text-base bg-white';
+    const errorClasses = error ? 'border-red-500' : 'border-gray-300';
+    const focusClasses = 'focus:border-blue-600';
+    
+    return `${baseClasses} ${errorClasses} ${focusClasses} ${className}`.trim();
+  };
+
   return (
-    <StyledView className={`mb-4 ${containerClassName}`}>
+    <View className={`mb-4 ${containerClassName}`}>
       {label && (
-        <StyledText className="text-sm font-medium text-gray-700 mb-1">
+        <Text className="text-sm font-medium text-gray-700 mb-2">
           {label}
-        </StyledText>
+        </Text>
       )}
-      <StyledTextInput
-        className={`border rounded-lg px-4 py-2 text-base ${
-          error ? 'border-danger' : 'border-gray-300'
-        } focus:border-primary ${className}`}
+      <TextInput
+        className={getInputClasses()}
         placeholderTextColor="#9CA3AF"
         {...props}
       />
       {error && (
-        <StyledText className="text-sm text-danger mt-1">{error}</StyledText>
+        <Text className="text-sm text-red-600 mt-1">{error}</Text>
       )}
-    </StyledView>
+    </View>
   );
 }; 

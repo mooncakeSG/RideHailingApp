@@ -1,9 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { styled } from 'nativewind';
-
-const StyledTouchableOpacity = styled(TouchableOpacity);
-const StyledText = styled(Text);
+import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 
 interface ButtonProps {
   onPress: () => void;
@@ -12,6 +8,7 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
+  className?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -21,45 +18,57 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   disabled = false,
   loading = false,
+  className = '',
 }) => {
-  const baseStyles = 'rounded-lg items-center justify-center';
-  const variantStyles = {
-    primary: 'bg-primary',
-    secondary: 'bg-secondary',
-    outline: 'border-2 border-primary',
+  const getButtonClasses = () => {
+    const baseClasses = 'rounded-lg items-center justify-center';
+    
+    const variantClasses = {
+      primary: 'bg-blue-600',
+      secondary: 'bg-gray-600',
+      outline: 'border-2 border-blue-600 bg-transparent',
+    };
+
+    const sizeClasses = {
+      sm: 'px-4 py-2',
+      md: 'px-6 py-3',
+      lg: 'px-8 py-4',
+    };
+
+    const disabledClasses = disabled || loading ? 'opacity-50' : '';
+
+    return `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabledClasses} ${className}`.trim();
   };
 
-  const sizeStyles = {
-    sm: 'px-4 py-2',
-    md: 'px-6 py-3',
-    lg: 'px-8 py-4',
-  };
+  const getTextClasses = () => {
+    const variantTextClasses = {
+      primary: 'text-white',
+      secondary: 'text-white',
+      outline: 'text-blue-600',
+    };
 
-  const textStyles = {
-    primary: 'text-white',
-    secondary: 'text-white',
-    outline: 'text-primary',
+    const sizeTextClasses = {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
+    };
+
+    return `font-semibold ${variantTextClasses[variant]} ${sizeTextClasses[size]}`;
   };
 
   return (
-    <StyledTouchableOpacity
+    <TouchableOpacity
       onPress={onPress}
       disabled={disabled || loading}
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
-        disabled ? 'opacity-50' : ''
-      }`}
+      className={getButtonClasses()}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? '#007AFF' : '#FFFFFF'} />
+        <ActivityIndicator color={variant === 'outline' ? '#2563eb' : '#FFFFFF'} />
       ) : (
-        <StyledText
-          className={`font-semibold ${textStyles[variant]} ${
-            size === 'sm' ? 'text-sm' : size === 'md' ? 'text-base' : 'text-lg'
-          }`}
-        >
+        <Text className={getTextClasses()}>
           {title}
-        </StyledText>
+        </Text>
       )}
-    </StyledTouchableOpacity>
+    </TouchableOpacity>
   );
 }; 

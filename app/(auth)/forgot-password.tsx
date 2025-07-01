@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { styled } from 'nativewind';
 import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledTouchableOpacity = styled(TouchableOpacity);
 
 export default function ForgotPasswordScreen() {
   const router = useRouter();
@@ -51,32 +46,32 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-background">
-      <StyledView className="p-4">
-        <StyledView className="mb-8">
-          <StyledText className="text-3xl font-bold text-gray-900">
+    <ScrollView className="flex-1 bg-white">
+      <View className="p-4">
+        <View className="mb-8">
+          <Text className="text-3xl font-bold text-gray-900">
             Reset Password
-          </StyledText>
-          <StyledText className="text-gray-500 mt-2">
+          </Text>
+          <Text className="text-gray-500 mt-2">
             Enter your email to receive reset instructions
-          </StyledText>
-        </StyledView>
+          </Text>
+        </View>
 
         {isSubmitted ? (
-          <StyledView className="space-y-4">
-            <StyledView className="bg-success/10 p-4 rounded-lg">
-              <StyledText className="text-success text-center">
+          <View className="space-y-4">
+            <View className="bg-green-50 p-4 rounded-lg">
+              <Text className="text-green-600 text-center">
                 Password reset instructions have been sent to your email.
-              </StyledText>
-            </StyledView>
+              </Text>
+            </View>
             <Button
               title="Back to Login"
               onPress={() => router.push('/login')}
               variant="outline"
             />
-          </StyledView>
+          </View>
         ) : (
-          <StyledView className="space-y-4">
+          <View className="space-y-4">
             <Input
               label="Email"
               value={email}
@@ -98,17 +93,17 @@ export default function ForgotPasswordScreen() {
               className="mt-4"
             />
 
-            <StyledTouchableOpacity
+            <TouchableOpacity
               onPress={() => router.push('/login')}
               className="items-center mt-4"
             >
-              <StyledText className="text-primary">
+              <Text className="text-blue-600">
                 Back to Login
-              </StyledText>
-            </StyledTouchableOpacity>
-          </StyledView>
+              </Text>
+            </TouchableOpacity>
+          </View>
         )}
-      </StyledView>
+      </View>
     </ScrollView>
   );
 } 

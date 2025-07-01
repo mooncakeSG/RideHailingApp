@@ -1,11 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import { styled } from 'nativewind';
 import { Button } from '../../components/ui/Button';
 import { RideCard } from '../../components/RideCard';
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
 
 const rideOptions = [
   {
@@ -35,38 +31,38 @@ export default function HomeScreen() {
   const [selectedRide, setSelectedRide] = React.useState<string | null>(null);
 
   return (
-    <ScrollView className="flex-1 bg-background">
-      <StyledView className="p-4">
+    <ScrollView className="flex-1 bg-gray-50">
+      <View className="p-6">
         {/* Header */}
-        <StyledView className="mb-6">
-          <StyledText className="text-2xl font-bold text-gray-900">
+        <View className="mb-6">
+          <Text className="text-2xl font-bold text-gray-900">
             Book a Ride
-          </StyledText>
-          <StyledText className="text-gray-500 mt-1">
+          </Text>
+          <Text className="text-gray-600 mt-1 text-base">
             Choose your preferred ride type
-          </StyledText>
-        </StyledView>
+          </Text>
+        </View>
 
         {/* Promotions */}
-        <StyledView className="mb-6">
-          <StyledText className="text-lg font-semibold text-gray-900 mb-2">
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-gray-900 mb-3">
             Special Offers
-          </StyledText>
-          <StyledView className="bg-primary/10 p-4 rounded-lg">
-            <StyledText className="text-primary font-semibold">
+          </Text>
+          <View className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <Text className="text-blue-800 font-semibold">
               20% off your first ride!
-            </StyledText>
-            <StyledText className="text-gray-600 mt-1">
+            </Text>
+            <Text className="text-blue-600 mt-1">
               Use code: FIRST20
-            </StyledText>
-          </StyledView>
-        </StyledView>
+            </Text>
+          </View>
+        </View>
 
         {/* Ride Options */}
-        <StyledView className="mb-6">
-          <StyledText className="text-lg font-semibold text-gray-900 mb-2">
+        <View className="mb-6">
+          <Text className="text-lg font-semibold text-gray-900 mb-3">
             Available Rides
-          </StyledText>
+          </Text>
           {rideOptions.map((ride) => (
             <RideCard
               key={ride.id}
@@ -78,7 +74,7 @@ export default function HomeScreen() {
               isSelected={selectedRide === ride.id}
             />
           ))}
-        </StyledView>
+        </View>
 
         {/* Book Button */}
         <Button
@@ -87,7 +83,7 @@ export default function HomeScreen() {
           disabled={!selectedRide}
           className="mt-4"
         />
-      </StyledView>
+      </View>
     </ScrollView>
   );
 } 

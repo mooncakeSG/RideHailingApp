@@ -1,4 +1,47 @@
 import { useEffect } from 'react';
+// TODO: Install @react-native-firebase/messaging when implementing push notifications
+// import messaging from '@react-native-firebase/messaging';
+import { useDispatch } from 'react-redux';
+import {
+  setFcmToken,
+  setPermissionStatus,
+  addNotification,
+  setError,
+} from '../store/slices/notificationSlice';
+import { Alert } from 'react-native';
+
+export const useFirebaseMessaging = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // TODO: Implement Firebase messaging when push notifications are ready
+    console.log('Firebase messaging hook - placeholder implementation');
+    
+    // Set placeholder values for development
+    dispatch(setPermissionStatus(true));
+    dispatch(setFcmToken('placeholder-token-dev'));
+  }, [dispatch]);
+
+  // Placeholder function for development
+  const sendTestNotification = async () => {
+    console.log('Test notification - placeholder implementation');
+    dispatch(addNotification({
+      id: Date.now().toString(),
+      title: 'Test Notification',
+      body: 'This is a test notification for development',
+      data: {},
+      timestamp: Date.now(),
+      read: false,
+    }));
+  };
+
+  return { sendTestNotification };
+};
+
+/* 
+ORIGINAL IMPLEMENTATION - TO BE RESTORED WHEN FIREBASE IS ADDED:
+
+import { useEffect } from 'react';
 import messaging from '@react-native-firebase/messaging';
 import { useDispatch } from 'react-redux';
 import {
@@ -152,4 +195,5 @@ export const useFirebaseMessaging = () => {
   };
 
   return { sendTestNotification };
-}; 
+};
+*/ 

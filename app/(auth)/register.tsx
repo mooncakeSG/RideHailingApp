@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { styled } from 'nativewind';
 import { useRouter } from 'expo-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { registerUser } from '../store/slices/authSlice';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledTouchableOpacity = styled(TouchableOpacity);
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -76,7 +71,7 @@ export default function RegisterScreen() {
       try {
         const { confirmPassword, ...registerData } = formData;
         await dispatch(registerUser(registerData));
-        router.replace('/(tabs)/home');
+        router.replace('/(tabs)/');
       } catch (error) {
         console.error('Registration failed:', error);
       }
@@ -84,18 +79,18 @@ export default function RegisterScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-background">
-      <StyledView className="p-4">
-        <StyledView className="mb-8">
-          <StyledText className="text-3xl font-bold text-gray-900">
+    <ScrollView className="flex-1 bg-white">
+      <View className="p-4">
+        <View className="mb-8">
+          <Text className="text-3xl font-bold text-gray-900">
             Create Account
-          </StyledText>
-          <StyledText className="text-gray-500 mt-2">
+          </Text>
+          <Text className="text-gray-500 mt-2">
             Sign up to get started
-          </StyledText>
-        </StyledView>
+          </Text>
+        </View>
 
-        <StyledView className="space-y-4">
+        <View className="space-y-4">
           <Input
             label="Full Name"
             value={formData.name}
@@ -143,52 +138,52 @@ export default function RegisterScreen() {
             error={formErrors.confirmPassword}
           />
 
-          <StyledView className="mb-4">
-            <StyledText className="text-sm font-medium text-gray-700 mb-2">
+          <View className="mb-4">
+            <Text className="text-sm font-medium text-gray-700 mb-2">
               I want to register as a:
-            </StyledText>
-            <StyledView className="flex-row space-x-4">
-              <StyledTouchableOpacity
+            </Text>
+            <View className="flex-row space-x-4">
+              <TouchableOpacity
                 onPress={() => setFormData({ ...formData, role: 'passenger' })}
                 className={`flex-1 p-3 rounded-lg border-2 ${
                   formData.role === 'passenger'
-                    ? 'border-primary bg-primary/5'
+                    ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200'
                 }`}
               >
-                <StyledText
+                <Text
                   className={`text-center ${
                     formData.role === 'passenger'
-                      ? 'text-primary font-semibold'
+                      ? 'text-blue-600 font-semibold'
                       : 'text-gray-600'
                   }`}
                 >
                   Passenger
-                </StyledText>
-              </StyledTouchableOpacity>
-              <StyledTouchableOpacity
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => setFormData({ ...formData, role: 'driver' })}
                 className={`flex-1 p-3 rounded-lg border-2 ${
                   formData.role === 'driver'
-                    ? 'border-primary bg-primary/5'
+                    ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200'
                 }`}
               >
-                <StyledText
+                <Text
                   className={`text-center ${
                     formData.role === 'driver'
-                      ? 'text-primary font-semibold'
+                      ? 'text-blue-600 font-semibold'
                       : 'text-gray-600'
                   }`}
                 >
                   Driver
-                </StyledText>
-              </StyledTouchableOpacity>
-            </StyledView>
-          </StyledView>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
           {error && (
-            <StyledText className="text-danger text-sm">{error}</StyledText>
+            <Text className="text-red-500 text-sm">{error}</Text>
           )}
 
           <Button
@@ -199,18 +194,18 @@ export default function RegisterScreen() {
             className="mt-4"
           />
 
-          <StyledView className="flex-row justify-center mt-4">
-            <StyledText className="text-gray-600">
+          <View className="flex-row justify-center mt-4">
+            <Text className="text-gray-600">
               Already have an account?{' '}
-            </StyledText>
-            <StyledTouchableOpacity onPress={() => router.push('/login')}>
-              <StyledText className="text-primary font-semibold">
+            </Text>
+            <TouchableOpacity onPress={() => router.push('/login')}>
+              <Text className="text-primary font-semibold">
                 Sign In
-              </StyledText>
-            </StyledTouchableOpacity>
-          </StyledView>
-        </StyledView>
-      </StyledView>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     </ScrollView>
   );
 } 

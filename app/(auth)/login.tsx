@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { styled } from 'nativewind';
 import { useRouter } from 'expo-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { loginUser } from '../store/slices/authSlice';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledTouchableOpacity = styled(TouchableOpacity);
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -58,18 +53,18 @@ export default function LoginScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-background">
-      <StyledView className="p-4">
-        <StyledView className="mb-8">
-          <StyledText className="text-3xl font-bold text-gray-900">
+    <ScrollView className="flex-1 bg-gray-50">
+      <View className="p-6 pt-16">
+        <View className="mb-8">
+          <Text className="text-3xl font-bold text-gray-900">
             Welcome Back
-          </StyledText>
-          <StyledText className="text-gray-500 mt-2">
+          </Text>
+          <Text className="text-gray-600 mt-2 text-lg">
             Sign in to continue
-          </StyledText>
-        </StyledView>
+          </Text>
+        </View>
 
-        <StyledView className="space-y-4">
+        <View className="space-y-6">
           <Input
             label="Email"
             value={email}
@@ -90,7 +85,9 @@ export default function LoginScreen() {
           />
 
           {error && (
-            <StyledText className="text-danger text-sm">{error}</StyledText>
+            <View className="bg-red-50 border border-red-200 p-3 rounded-lg">
+              <Text className="text-red-800 text-sm">{error}</Text>
+            </View>
           )}
 
           <Button
@@ -98,30 +95,30 @@ export default function LoginScreen() {
             onPress={handleLogin}
             loading={isLoading}
             disabled={isLoading}
-            className="mt-4"
+            className="mt-6"
           />
 
-          <StyledView className="flex-row justify-center mt-4">
-            <StyledText className="text-gray-600">
+          <View className="flex-row justify-center mt-6">
+            <Text className="text-gray-600">
               Don't have an account?{' '}
-            </StyledText>
-            <StyledTouchableOpacity onPress={() => router.push('/register')}>
-              <StyledText className="text-primary font-semibold">
+            </Text>
+            <TouchableOpacity onPress={() => router.push('/register')}>
+              <Text className="text-blue-600 font-semibold">
                 Sign Up
-              </StyledText>
-            </StyledTouchableOpacity>
-          </StyledView>
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-          <StyledTouchableOpacity
+          <TouchableOpacity
             onPress={() => router.push('/forgot-password')}
             className="items-center mt-4"
           >
-            <StyledText className="text-primary">
+            <Text className="text-blue-600">
               Forgot Password?
-            </StyledText>
-          </StyledTouchableOpacity>
-        </StyledView>
-      </StyledView>
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </ScrollView>
   );
 } 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000/api',
@@ -10,10 +11,14 @@ const api = axios.create({
 
 // Request interceptor for adding auth token
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  async (config) => {
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error('Error retrieving auth token:', error);
     }
     return config;
   },
@@ -25,11 +30,16 @@ api.interceptors.request.use(
 // Response interceptor for handling errors
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      try {
+        await AsyncStorage.removeItem('authToken');
+        // Note: Navigation should be handled by the component that receives this error
+        console.warn('Unauthorized access - auth token removed');
+      } catch (storageError) {
+        console.error('Error removing auth token:', storageError);
+      }
     }
     return Promise.reject(error);
   }
